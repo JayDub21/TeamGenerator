@@ -40,11 +40,18 @@ function teamAppForm() {
 
         // Ask user which school
         {
-            type
+            type: "input",
+            name: "school",
+            message: "What school did/do you attend?"
+
         },
 
         // Ask user for office #
-
+        {
+            type: "input",
+            name: "officeNum",
+            message: "What is your office number?"
+        }
 
         // Ask for GH username
 
