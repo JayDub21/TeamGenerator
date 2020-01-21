@@ -6,19 +6,42 @@ function teamAppForm() {
     inquirer.prompt([
 
         // Ask user for name
-
+        {
+            type: "input",
+            name: "name",
+            message: "What is your name"
+        },
 
         // Ask for user email
-
+        {
+            type: "input",
+            name: "email",
+            message: "What is your email address?"
+        },
 
         // Ask for user ID#
-
+        {
+            type: "input",
+            name: "id",
+            message: "What is your ID number?"
+        },
 
         // Ask user for team role
-
+        {
+            type: "rawlist",
+            name: "role",
+            message: "What is your team role?",
+            choices: [
+                "manager",
+                "intern",
+                "engineer"
+            ]
+        },
 
         // Ask user which school
-
+        {
+            type
+        },
 
         // Ask user for office #
 
@@ -48,3 +71,7 @@ function teamAppForm() {
 
     })
 }; teamAppForm();
+
+
+//function to create new user profile/card
+
