@@ -1,84 +1,111 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
+const Engineer = require("./lib/Engineer");
+const Manager = require("./lib/Manager");
+const Intern = require("./lib/Intern");
 
+let mgr;
+let teamName;
 
-function teamAppForm() {
+function mgrTeamGen() {
     inquirer.prompt([
+
+        // Confirm they are a manger
+        {
+            type: "confirm",
+            name: "mgrConfirm",
+            message: "Are you the team Mangager?"
+        },
+
+        {
+            type: "input",
+            name: "teamName",
+            message: "What is your Team's name?",
+            when: (data) => data.mgrConfirm
+        },
 
         // Ask user for name
         {
             type: "input",
-            name: "name",
-            message: "What is your name"
+            name: "mgrName",
+            message: "What is your name?",
+            when: (data) => data.mgrConfirm
         },
 
         // Ask for user email
         {
             type: "input",
-            name: "email",
-            message: "What is your email address?"
+            name: "mgrEmail",
+            message: "What is your email address?",
+            when: (data) => data.mgrConfirm
         },
 
         // Ask for user ID#
         {
             type: "input",
-            name: "id",
-            message: "What is your ID number?"
-        },
-
-        // Ask user for team role
-        {
-            type: "rawlist",
-            name: "role",
-            message: "What is your team role?",
-            choices: [
-                "manager",
-                "intern",
-                "engineer"
-            ]
-        },
-
-        // Ask user which school
-        {
-            type: "input",
-            name: "school",
-            message: "What school did/do you attend?"
-
+            name: "mgrId",
+            message: "What is your ID number?",
+            when: (data) => data.mgrConfirm
         },
 
         // Ask user for office #
         {
             type: "input",
             name: "officeNum",
-            message: "What is your office number?"
+            message: "What is your office number?",
+            when: (data) => data.mgrConfirm
         }
 
-        // Ask for GH username
 
 
-        // What is new team name?
+    ]).then((mgrData) => {
+        console.log(mgrData);
 
-
-        // Want to add another team member?
-    ]).then((data) => {
-        console.log(data);
-
-        // create variables to store specific data
-        // put properties in object?
-
-        //if manager, assign data (create new manager)
-
-        //if student, assign data (create new intern)
-
-        // if engineer, assign data (createnew engineer)
-
-        //if want another member = true, restart teamAppForm();
-
-        //if want another member = false, return 
+        // Assign these answers to Manager 
+        mgr = new Manager(mgrData);
+        let teamName = mgrData.teamName;
+        // console.log(teamName);
 
     })
-}; teamAppForm();
+}; mgrTeamGen();
 
+
+
+
+// Ask for GH username
+
+// create variables to store specific data
+// put properties in object?
+
+//if manager, assign data (create new manager)
+
+//if student, assign data (create new intern)
+
+// if engineer, assign data (createnew engineer)
+
+//if want another member = true, run inter/engineer question function();
+
+//if want another member = false, return 
 
 //function to create new user profile/card
 
+
+        // Ask user for team role
+        // {
+        //     type: "rawlist",
+        //     name: "role",
+        //     message: "What is your team role?",
+        //     choices: [
+        //         "intern",
+        //         "engineer"
+        //     ]
+        // },
+
+
+        // Ask user which school
+        // {
+        //     type: "input",
+        //     name: "school",
+        //     message: "What school did/do you attend?"
+
+        // },
