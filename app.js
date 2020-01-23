@@ -17,10 +17,9 @@ let teamName;
 mgrQ = [
     // Confirm if they are a manger before starting.
     {
-        type: "rawlist",
+        type: "confirm",
         name: "mgrConfirm",
         message: "Are you the team Mangager?"
-
     },
 
     {
@@ -131,14 +130,14 @@ function mgrGen() {
         }
 
         // Assign these answers to Manager 
-        mgr = new Manager(mgrName, mgrId, mgrEmail, officeNum, role);
+        mgr = new Manager(mgrName, mgrId, mgrEmail, officeNum);
         team.push(mgr);
 
         // Fill teamName var
         teamName = mgrData.teamName;
 
         // After Manager is created, run team questions.
-        teamGen();
+        teamGen(mgr);
 
     })
 
@@ -149,7 +148,7 @@ function mgrGen() {
 //       Inititate Team Questions
 //↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
-function teamGen() {
+function teamGen(mgr) {
     inquirer.prompt(teamQ).then((teamData) => {
         console.log(teamData);
 
@@ -162,11 +161,11 @@ function teamGen() {
         const addTeammate = teamData.addTeammate;
 
         if (role === "Intern") {
-            const intern = new Intern(teamName, teamId, teamEmail, school, role);
+            const intern = new Intern(teamName, teamId, teamEmail, school);
             team.push(intern);
         }
         else if (role === "Engineer") {
-            const engineer = new Engineer(teamName, teamId, teamEmail, github, role);
+            const engineer = new Engineer(teamName, teamId, teamEmail, github);
             team.push(engineer);
         };
 
@@ -175,7 +174,7 @@ function teamGen() {
             teamGen();
         }
         else {
-
+            console.log(mgr);
             let mgrCard = fs.readFileSync('./templates/manager.html', 'utf8');
             mgrCard = mgrCard.replace('{{name}}', mgr.getName());
             mgrCard = mgrCard.replace('{{role}}', mgr.getRole());
@@ -183,17 +182,20 @@ function teamGen() {
             mgrCard = mgrCard.replace('{{email}}', mgr.getEmail());
             mgrCard = mgrCard.replace('{{officeNumber}}', mgr.getOfficeNumber());
             mgrCard = mgrCard.replace('{{role}}', mgr.getRole());
-            let cards = mgrCard;
+
+            fs.writeFileSync("./team.html", teamGen(mgr));
 
             //Loop thru and grap other team members
             for (i = 0; i < team.length; i++) {
                 let teamMember = team[i];
-                cards += teamCard(teamMember);
+                // cards += teamCard(teamMember);
+                console.log("before card")
+                fs.writeFileSync("./team.html", teamCard(teamMember))
             }
 
-            main = main.replace('{{cards}}', cards);
+            // main = main.replace('{{cards}}', cards);
 
-            fs.writeFileSync('./team.html', 'utf8')
+            // fs.writeFileSync('./team.html')
 
         };
 
@@ -208,25 +210,25 @@ mgrGen();
 
 
 
-function teamCard() {
+function teamCard(member) {
 
-    if (Engineer.getRole() === "Engineer") {
+    if (member.getRole() === "Engineer") {
         let engCard = fs.readFileSync('./templates/engineer.html', 'utf8');
-        engCard = engCard.replace('{{name}}', engineer.getName());
-        engCard = engCard.replace('{{role}}', engineer.getRole());
-        engCard = engCard.replace('{{id}}', engineer.getId());
-        engCard = engCard.replace('{{email}}', engineer.getEmail());
-        engCard = engCard.replace('{{github}}', engineer.getGithub());
+        engCard = engCard.replace('{{name}}', member.getName());
+        engCard = engCard.replace('{{role}}', member.getRole());
+        engCard = engCard.replace('{{id}}', member.getId());
+        engCard = engCard.replace('{{email}}', member.getEmail());
+        engCard = engCard.replace('{{github}}', member.getGithub());
         return engCard
     }
 
-    else if (Intern.getRole() === "Intern") {
+    else if (member.getRole() === "Intern") {
         var intCard = fs.readFileSync('./templates/intern.html', 'utf8');
-        intCard = intCard.replace('{{name}}', intern.getName());
-        intCard = intCard.replace('{{role}}', intern.getRole());
-        intCard = intCard.replace('{{id}}', intern.getId());
-        intCard = intCard.replace('{{email}}', intern.getEmail());
-        intCard = intCard.replace('{{school}}', intern.getSchool());
+        intCard = intCard.replace('{{name}}', member.getName());
+        intCard = intCard.replace('{{role}}', member.getRole());
+        intCard = intCard.replace('{{id}}', member.getId());
+        intCard = intCard.replace('{{email}}', member.getEmail());
+        intCard = intCard.replace('{{school}}', member.getSchool());
         return intCard;
     }
 };
