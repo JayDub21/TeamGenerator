@@ -5,40 +5,14 @@ const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
 
 let team = [];
+console.log(team);
 let teamName;
 
-// Initiate manager Questions
-function mgrGen() {
-    inquirer.prompt(mgrQ).then((mgrData) => {
-        console.log(mgrData);
-
-        // Assign these answers to Manager 
-        mgr = new Manager(mgrData);
-
-        // Asign team name to its own Variable
-        let teamName = mgrData.teamName;
-        // console.log(teamName);
-
-        // After Manager is created, run team questions.
-        teamGen();
-
-    })
-};
-
-
-function teamGen() {
-    inquirer.prompt(teamQ).then((teamData) => {
-        console.log(teamData);
-
-        const role = teamData.role;
-
-    })
-
-};
-
-mgrGen();
-
-
+//↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+//              NPM Packages
+//=========================================
+//  Question bank for Manager Generation  
+//↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
 mgrQ = [
     // Confirm they are a manger before moving on.
@@ -85,9 +59,10 @@ mgrQ = [
 ];
 
 
+//===============================================
+// Question bank for New Team Member Generation
+//↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 teamQ = [
-
-
     {
         type: "list",
         name: "role",
@@ -104,26 +79,26 @@ teamQ = [
     {
         type: "input",
         name: "teamId",
-        message: "What is" + teamData.teamName + "'s ID# ?"
+        message: "What is new team member's ID# ?"
     },
 
     {
         type: "input",
         name: "teamEmail",
-        message: "What is" + teamData.teamName + "'s email?"
+        message: "What is new team member's email?"
     },
 
     {
         type: "input",
         name: "github",
-        message: "What is" + teamData.teamName + "'s github username?",
+        message: "What is new team member's github username?",
         when: (teamData) => teamData.role === "Engineer"
     },
 
     {
         type: "input",
         name: "school",
-        message: "What is" + teamData.teamName + "'s School Name?",
+        message: "What is new team member's School Name?",
         when: (teamData) => teamData.role === "Intern"
     },
 
@@ -133,6 +108,88 @@ teamQ = [
         message: "Do you want to add another member to the team?"
     },
 ];
+
+
+
+//=========================================
+//     Inititate Manager Questions
+//↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+function mgrGen() {
+    inquirer.prompt(mgrQ).then((mgrData) => {
+        console.log(mgrData);
+
+        const mgrName = mgrData.mgrName;
+        const mgrId = mgrData.mgrId;
+        const mgrEmail = mgrData.mgrEmail;
+        const officeNum = mgrData.officeNum;
+
+
+        // Assign these answers to Manager 
+        mgr = new Manager(mgrData);
+        team.push(mgr);
+
+        // Fill teamName var
+        teamName = mgrData.teamName;
+
+        // After Manager is created, run team questions.
+        teamGen();
+
+    })
+};
+
+
+//=========================================
+//       Inititate Team Questions
+//↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+function teamGen() {
+    inquirer.prompt(teamQ).then((teamData) => {
+        console.log(teamData);
+
+        const role = teamData.role;
+        const teamName = teamData.teamName;
+        const teamId = teamData.teamId;
+        const teamEmail = teamData.teamEmail;
+        const github = teamData.github;
+        const school = teamData.school;
+        const addTeammate = teamData.addTeammate;
+
+        if (role === "Intern") {
+            const intern = new Intern(teamData);
+            team.push(intern);
+        }
+        else if (role === "Engineer") {
+            const engineer = new Engineer(teamData);
+            team.push(engineer);
+        };
+
+
+        if (addTeammate === true) {
+            teamGen();
+        }
+        else {
+
+            //return;
+
+        };
+
+
+    });
+
+};
+
+mgrGen();
+
+
+
+
+
+
+
+
+
+
 
 
 // Ask for GH username
