@@ -1,5 +1,6 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
+
 const Engineer = require("./lib/Engineer");
 const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
@@ -16,9 +17,10 @@ let teamName;
 mgrQ = [
     // Confirm if they are a manger before starting.
     {
-        type: "confirm",
+        type: "rawlist",
         name: "mgrConfirm",
         message: "Are you the team Mangager?"
+
     },
 
     {
@@ -118,14 +120,18 @@ function mgrGen() {
     inquirer.prompt(mgrQ).then((mgrData) => {
         console.log(mgrData);
 
+        const role = mgrData.mgrConfirm;
         const mgrName = mgrData.mgrName;
         const mgrId = mgrData.mgrId;
         const mgrEmail = mgrData.mgrEmail;
         const officeNum = mgrData.officeNum;
 
+        if (mgrData.mgrConfirm === true) {
+            mgrData.mgrConfirm === "Manager";
+        }
 
         // Assign these answers to Manager 
-        mgr = new Manager(mgrName, mgrId, mgrEmail, officeNum);
+        mgr = new Manager(mgrName, mgrId, mgrEmail, officeNum, role);
         team.push(mgr);
 
         // Fill teamName var
@@ -156,11 +162,11 @@ function teamGen() {
         const addTeammate = teamData.addTeammate;
 
         if (role === "Intern") {
-            const intern = new Intern(role, teamName, teamId, teamEmail, school);
+            const intern = new Intern(teamName, teamId, teamEmail, school, role);
             team.push(intern);
         }
         else if (role === "Engineer") {
-            const engineer = new Engineer(role, teamName, teamId, teamEmail, github);
+            const engineer = new Engineer(teamName, teamId, teamEmail, github, role);
             team.push(engineer);
         };
 
@@ -170,12 +176,13 @@ function teamGen() {
         }
         else {
 
-            let mgrCard = fs.readFileSync('./templates/Manager.html', 'utf8');
+            let mgrCard = fs.readFileSync('./templates/manager.html', 'utf8');
             mgrCard = mgrCard.replace('{{name}}', mgr.getName());
             mgrCard = mgrCard.replace('{{role}}', mgr.getRole());
             mgrCard = mgrCard.replace('{{id}}', mgr.getId());
             mgrCard = mgrCard.replace('{{email}}', mgr.getEmail());
             mgrCard = mgrCard.replace('{{officeNumber}}', mgr.getOfficeNumber());
+            mgrCard = mgrCard.replace('{{role}}', mgr.getRole());
             let cards = mgrCard;
 
             //Loop thru and grap other team members
@@ -203,8 +210,8 @@ mgrGen();
 
 function teamCard() {
 
-    if (employee.getRole() === "Engineer") {
-        let engCard = fs.readFileSync('./templates/Engineer.html', 'utf8');
+    if (Engineer.getRole() === "Engineer") {
+        let engCard = fs.readFileSync('./templates/engineer.html', 'utf8');
         engCard = engCard.replace('{{name}}', engineer.getName());
         engCard = engCard.replace('{{role}}', engineer.getRole());
         engCard = engCard.replace('{{id}}', engineer.getId());
@@ -213,8 +220,8 @@ function teamCard() {
         return engCard
     }
 
-    else if (employee.getRole() === "Intern") {
-        var intCard = fs.readFileSync('./templates/Intern.html', 'utf8');
+    else if (Intern.getRole() === "Intern") {
+        var intCard = fs.readFileSync('./templates/intern.html', 'utf8');
         intCard = intCard.replace('{{name}}', intern.getName());
         intCard = intCard.replace('{{role}}', intern.getRole());
         intCard = intCard.replace('{{id}}', intern.getId());
