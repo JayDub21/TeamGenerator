@@ -5,7 +5,6 @@ const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
 
 let team = [];
-console.log(team);
 let teamName;
 
 //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
@@ -15,7 +14,7 @@ let teamName;
 //↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
 mgrQ = [
-    // Confirm they are a manger before moving on.
+    // Confirm if they are a manger before starting.
     {
         type: "confirm",
         name: "mgrConfirm",
@@ -126,7 +125,7 @@ function mgrGen() {
 
 
         // Assign these answers to Manager 
-        mgr = new Manager(mgrData);
+        mgr = new Manager(mgrName, mgrId, mgrEmail, officeNum);
         team.push(mgr);
 
         // Fill teamName var
@@ -136,6 +135,7 @@ function mgrGen() {
         teamGen();
 
     })
+
 };
 
 
@@ -156,11 +156,11 @@ function teamGen() {
         const addTeammate = teamData.addTeammate;
 
         if (role === "Intern") {
-            const intern = new Intern(teamData);
+            const intern = new Intern(role, teamName, teamId, teamEmail, school);
             team.push(intern);
         }
         else if (role === "Engineer") {
-            const engineer = new Engineer(teamData);
+            const engineer = new Engineer(role, teamName, teamId, teamEmail, github);
             team.push(engineer);
         };
 
@@ -170,7 +170,23 @@ function teamGen() {
         }
         else {
 
-            //return;
+            let mgrCard = fs.readFileSync('./templates/Manager.html', 'utf8');
+            mgrCard = mgrCard.replace('{{name}}', mgr.getName());
+            mgrCard = mgrCard.replace('{{role}}', mgr.getRole());
+            mgrCard = mgrCard.replace('{{id}}', mgr.getId());
+            mgrCard = mgrCard.replace('{{email}}', mgr.getEmail());
+            mgrCard = mgrCard.replace('{{officeNumber}}', mgr.getOfficeNumber());
+            let cards = mgrCard;
+
+            //Loop thru and grap other team members
+            for (i = 0; i < team.length; i++) {
+                let teamMember = team[i];
+                cards += teamCard(teamMember);
+            }
+
+            main = main.replace('{{cards}}', cards);
+
+            fs.writeFileSync('./team.html', 'utf8')
 
         };
 
@@ -179,53 +195,31 @@ function teamGen() {
 
 };
 
+
+// Starts manager questions
 mgrGen();
 
 
 
+function teamCard() {
 
+    if (employee.getRole() === "Engineer") {
+        let engCard = fs.readFileSync('./templates/Engineer.html', 'utf8');
+        engCard = engCard.replace('{{name}}', engineer.getName());
+        engCard = engCard.replace('{{role}}', engineer.getRole());
+        engCard = engCard.replace('{{id}}', engineer.getId());
+        engCard = engCard.replace('{{email}}', engineer.getEmail());
+        engCard = engCard.replace('{{github}}', engineer.getGithub());
+        return engCard
+    }
 
-
-
-
-
-
-
-
-// Ask for GH username
-
-// create variables to store specific data
-// put properties in object?
-
-//if manager, assign data (create new manager)
-
-//if student, assign data (create new intern)
-
-// if engineer, assign data (createnew engineer)
-
-//if want another member = true, run inter/engineer question function();
-
-//if want another member = false, return 
-
-//function to create new user profile/card
-
-
-        // Ask user for team role
-        // {
-        //     type: "rawlist",
-        //     name: "role",
-        //     message: "What is your team role?",
-        //     choices: [
-        //         "intern",
-        //         "engineer"
-        //     ]
-        // },
-
-
-        // Ask user which school
-        // {
-        //     type: "input",
-        //     name: "school",
-        //     message: "What school did/do you attend?"
-
-        // },
+    else if (employee.getRole() === "Intern") {
+        var intCard = fs.readFileSync('./templates/Intern.html', 'utf8');
+        intCard = intCard.replace('{{name}}', intern.getName());
+        intCard = intCard.replace('{{role}}', intern.getRole());
+        intCard = intCard.replace('{{id}}', intern.getId());
+        intCard = intCard.replace('{{email}}', intern.getEmail());
+        intCard = intCard.replace('{{school}}', intern.getSchool());
+        return intCard;
+    }
+};
