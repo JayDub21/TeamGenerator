@@ -18,6 +18,10 @@ node app.js
 
 ##### Input Team Infomration Into Prompts
 
+## EXAMPLE:
+![employee-tracker](images/teamGen.gif)
+![employee-tracker](images/teamGenSS.png)
+
 ##### Secondary Click the Generated HTML file
 ```sh
 outputs.html

@@ -137,19 +137,19 @@ async function teamGen() {
                     {
                         type: "input",
                         name: "intName",
-                        message: "What is the new team member's name?"
+                        message: "What is the new Intern's name?"
                     },
 
                     {
                         type: "input",
                         name: "intId",
-                        message: "What is new team member's ID# ?"
+                        message: "What is new Intern's ID# ?"
                     },
 
                     {
                         type: "input",
                         name: "intEmail",
-                        message: "What is new team member's email?"
+                        message: "What is new Intern's email?"
                     },
 
                     {
@@ -171,26 +171,26 @@ async function teamGen() {
                 })
 
             }
-            let { Name, Id, Email, OfficeNum, Role } = genMgr
+            let { name, id, email, officeNumber, role } = genMgr
 
             let mgrCard = fs.readFileSync('./templates/manager.html', 'utf8');
-            mgrCard = mgrCard.replace('{{name}}', Name);
-            mgrCard = mgrCard.replace('{{role}}', Role);
-            mgrCard = mgrCard.replace('{{id}}', Id);
-            mgrCard = mgrCard.replace('{{email}}', Email);
-            mgrCard = mgrCard.replace('{{officeNumber}}', OfficeNum);
+            mgrCard = mgrCard.replace('{{name}}', name);
+            mgrCard = mgrCard.replace('{{role}}', role);
+            mgrCard = mgrCard.replace('{{id}}', id);
+            mgrCard = mgrCard.replace('{{email}}', email);
+            mgrCard = mgrCard.replace('{{officeNumber}}', officeNumber);
             console.log(mgrCard);
 
             let engHTML = [];
             for (let i = 0; i < eng.length; i++) {
 
-                let { engName, engId, engEmail, github, role } = eng[i];
+                let { name, id, email, github, role } = eng[i];
 
                 let engCard = fs.readFileSync('./templates/engineer.html', 'utf8');
 
-                engCard = engCard.replace('{{name}}', engName);
-                engCard = engCard.replace('{{id}}', engId);
-                engCard = engCard.replace('{{email}}', engEmail);
+                engCard = engCard.replace('{{name}}', name);
+                engCard = engCard.replace('{{id}}', id);
+                engCard = engCard.replace('{{email}}', email);
                 engCard = engCard.replace('{{github}}', github);
                 engCard = engCard.replace('{{role}}', role);
                 engHTML.push(engCard);
@@ -200,13 +200,13 @@ async function teamGen() {
             let intHTML = [];
             for (let j = 0; j < int.length; j++) {
 
-                let { intName, intId, intEmail, school, role } = int[j];
+                let { name, id, email, school, role } = int[j];
 
                 let intCard = fs.readFileSync('./templates/intern.html', 'utf8');
 
-                intCard = intCard.replace('{{name}}', intName);
-                intCard = intCard.replace('{{id}}', intId);
-                intCard = intCard.replace('{{email}}', intEmail);
+                intCard = intCard.replace('{{name}}', name);
+                intCard = intCard.replace('{{id}}', id);
+                intCard = intCard.replace('{{email}}', email);
                 intCard = intCard.replace('{{school}}', school);
                 intCard = intCard.replace('{{role}}', role);
                 intHTML.push(intCard);
