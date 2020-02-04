@@ -16,9 +16,8 @@ npm install
 node app.js
 ``` 
 
-##### Input Team Infomration Into Prompts
-
 ## TERMINAL EXAMPLE:
+##### Input Team Information Into Prompts
 ![employee-tracker](images/teamGen.gif)
 
 ## HTML OUTPUT EXAMPLE:
@@ -28,6 +27,7 @@ node app.js
 ```sh
 outputs.html
 ```
+##### Click Open In Default Browser
 
 ### Credits
 * Will Jones
