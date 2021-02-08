@@ -22,7 +22,9 @@
   "homepage": "https://github.com/JayDub21/template-engine--team-gen#readme",
   "dependencies": {
     "inquirer": "^7.0.3",
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "minimist": "^1.2.5",
+    "node-notifier": "^9.0.0"
   },
   "devDependencies": {}
 }
