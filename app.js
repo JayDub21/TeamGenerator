@@ -201,7 +201,7 @@ async function teamGen() {
     mainHtml = mainHtml.replace('{{engineers}}', engHTML);
     mainHtml = mainHtml.replace('{{interns}}', intHTML);
 
-    fs.writeFileSync('.outputs.html', mainHtml);
+    fs.writeFileSync('outputs.html', mainHtml);
   });
 }
 
