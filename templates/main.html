@@ -1,65 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Team Page</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
     <style>
-        header {
-            height: 125px;
-            background-color: lightgray;
-            color: black;
-            text-align: center;
-        }
+      h1 {
+        text-align: center;
+      }
 
-        .container {
-            margin-top: 15px;
-        }
+      .container {
+        width: 50%;
+        padding: 10px;
+        margin: 12px 0 12px;
+        background-color: firebrick;
+        border: black 2px;
+      }
 
-        .card {
-            background-color: lightgray;
-            margin: 5px;
-        }
+      .card {
+        background-color: rgb(40, 40, 196);
+        color: whitesmoke;
+        margin: 10px;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    <header>
-        <h1>Generated Team:</h1>
-    </header>
+  <body>
+    <div class="container">
+      <h1>{{teamName}}</h1>
+    </div class="container">
 
     <div class="container">
+      <div id="members">
+        <div class="card" id="mgr">{{manager}}</div>
 
-        <div id="members">
+        <div class="card" id="others">{{engineers}}</div>
 
-            <div class="card" id="mgr">
-
-                {{manager}}
-            </div>
-
-            <div class="card" id="others">
-
-                {{engineers}}
-
-            </div>
-
-            <div class="card" id="others">
-
-                {{interns}}
-            </div>
-
-
-
-
-
-
-        </div>
+        <div class="card" id="others">{{interns}}</div>
+      </div>
     </div>
-
-</body>
-
+  </body>
 </html>
